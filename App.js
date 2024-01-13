@@ -1,6 +1,3 @@
-// index.js
-// where your node app starts
-
 // init project
 var express = require('express');
 var app = express();
@@ -44,7 +41,7 @@ app.get("/api/:date", function (req, res) {
   res.json({"unix": Date.parse(req.params.date), "utc": date.toUTCString()})}
   });
 
-// your first API endpoint... 
+// Request with no parameter returns the current datetime 
 app.get("/api", function (req, res) {
   res.json({unix: Date.now(), utc: new Date().toUTCString()});
 });
@@ -54,5 +51,8 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-// Convert app to serverless
+// Convert app to serverless; exporting handler allows lambda to call it
 module.exports.handler = serverless(app);
+
+// Export app as a module
+module.exports = app;
